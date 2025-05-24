@@ -13,10 +13,10 @@ pipeline {
             steps {
                 script {
                     def inputUser = params.USERNAME.trim().toLowerCase()
-                    def blockList = env.BLOCKED_USERS.tokenize(,)
+                    def blockList = env.BLOCKED_USERS.tokenize(',')
 
                     if (blockList.contains(inputUser)) {
-                        error ("Access denied for user: '${inputUser}' - Blocked user.")
+                git@github.com:IradIcaTE/Advanced_User_Access_Manager.git/        error ("Access denied for user: '${inputUser}' - Blocked user.")
                     } else {
                         echo "Access granted to '${inputUser}'. Proceeding with the pipeline."
                     }
