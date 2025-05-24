@@ -16,7 +16,7 @@ pipeline {
                     def inputUser = params.USERNAME.trim().toLowerCase()
                     def blockList = env.BLOCKED_USERS.tokenize(',')
 
-                    if (inputUser.contains(blockList)) {
+                    if (blockList.contains(inputUser)) {
                         error("Access denied for user: '${inputUser}' - Blocked user.")
                     } else {
                         echo "✅ Access granted to '${inputUser}'. Proceeding with the pipeline."
