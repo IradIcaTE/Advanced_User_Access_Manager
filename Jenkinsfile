@@ -1,13 +1,14 @@
 pipeline {
-    agent { label "First" }
+    agent any
 
     parameters {
-        string( name: "USERNAME", defaultValue: "Parth", description: "Enter the username requesting access" )
+        string(name: 'USERNAME', defaultValue: 'john_doe', description: 'Enter the username requesting access')
     }
 
     environment {
         BLOCKED_USERS = 'admin,root,hacker123,testuser'
     }
+
     stages {
         stage('Validate Access') {
             steps {
@@ -16,17 +17,18 @@ pipeline {
                     def blockList = env.BLOCKED_USERS.tokenize(',')
 
                     if (blockList.contains(inputUser)) {
-                git@github.com:IradIcaTE/Advanced_User_Access_Manager.git/        error ("Access denied for user: '${inputUser}' - Blocked user.")
+                        error("Access denied for user: '${inputUser}' - Blocked user.")
                     } else {
-                        echo "Access granted to '${inputUser}'. Proceeding with the pipeline."
+                        echo "✅ Access granted to '${inputUser}'. Proceeding with the pipeline."
                     }
                 }
             }
         }
 
-        stage("Provision Environment") {
+        stage('Provision Environment') {
             steps {
                 echo "Provisioning environment for ${params.USERNAME}..."
+                // Insert real provisioning steps here
             }
         }
     }
@@ -36,7 +38,7 @@ pipeline {
             echo "Pipeline completed successfully for user ${params.USERNAME}."
         }
         failure {
-            echo "Pipeline failed due ti blocked username or an error"
+            echo "❌ Pipeline failed due to blocked username or an error."
         }
     }
 }
